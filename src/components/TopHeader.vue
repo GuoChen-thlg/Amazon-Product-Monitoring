@@ -8,29 +8,35 @@
 				<el-select @change="selectSite" v-model="site.val" filterable placeholder="请选择">
 					<el-option
 						v-for="item in site.options"
-						:key="item.value"
+						:key="item.mark"
 						:label="item.country"
 						:value="item.mark"
-					></el-option>
+					>
+						<span :class="[`national_flag`,`icp-flag-${item.mark}`]"></span>
+						{{item.country}}
+					</el-option>
 				</el-select>
 			</div>
 			<div class="menu">
 				<Navbar />
 			</div>
 		</div>
-
 		<div class="user-box">
-			<template v-if="true">
-				<el-avatar icon="el-icon-user-solid"></el-avatar>
+			<template v-if="!$store.getters.isInlogin">
+				<router-link to="/login" tag="span" class="cursor" title="登陆">登录</router-link>/
+				<router-link to="/register" tag="span" class="cursor" title="注册">注册</router-link>
 			</template>
-			<el-dropdown @command="handle">
-				<span class="el-dropdown-link">
-					<i class="el-icon-arrow-down el-icon--right"></i>
-				</span>
-				<el-dropdown-menu slot="dropdown">
-					<el-dropdown-item command="QUIT">退出</el-dropdown-item>
-				</el-dropdown-menu>
-			</el-dropdown>
+			<template v-else>
+				<span>用户一</span>
+				<el-dropdown @command="handle">
+					<span class="el-dropdown-link">
+						<i class="el-icon-arrow-down el-icon--right"></i>
+					</span>
+					<el-dropdown-menu slot="dropdown">
+						<el-dropdown-item command="QUIT">退出</el-dropdown-item>
+					</el-dropdown-menu>
+				</el-dropdown>
+			</template>
 		</div>
 	</div>
 </template>
@@ -44,102 +50,33 @@
 			return {
 				site: {
 					val: this.$store.state.site,
-					options: [
-						{
-							country: '澳大利亚',
-							mark: 'au',
-						},
-						{
-							country: '巴西',
-							mark: 'br',
-						},
-						{
-							country: '加拿大',
-							mark: 'ca',
-						},
-						{
-							country: '中国',
-							mark: 'cn',
-						},
-						{
-							country: '法国',
-							mark: 'fr',
-						},
-						{
-							country: '德国',
-							mark: 'de',
-						},
-						{
-							country: '印度',
-							mark: 'in',
-						},
-						{
-							country: '意大利',
-							mark: 'it',
-						},
-						{
-							country: '日本',
-							mark: 'jp',
-						},
-						{
-							country: '墨西哥',
-							mark: 'mx',
-						},
-						{
-							country: '荷兰',
-							mark: 'nl',
-						},
-						{
-							country: '沙特',
-							mark: 'sa',
-						},
-						{
-							country: '新加坡',
-							mark: 'sg',
-						},
-						{
-							country: '西班牙',
-							mark: 'es',
-						},
-						{
-							country: '土耳其',
-							mark: 'tr',
-						},
-						{
-							country: '阿拉伯',
-							mark: 'ae',
-						},
-						{
-							country: '英国',
-							mark: 'gb',
-						},
-						{
-							country: '美国',
-							mark: 'us',
-						},
-					],
+					options: [],
+
 				}
 			}
 		},
-
 		mounted() {
-
+			this.site.options = this.$store.state.sites
 		},
 		methods: {
 			/**
 			 * 选择站点
-			 * 设置站点值
+			 * 设置站点到store
 			 */
 			selectSite(value) {
 				this.$store.commit('setSite', value)
 			},
 			/**
 			 * 用户下拉菜单
+			 * 已废弃
+			 * 
 			 */
 			handle(command) {
 				switch (command) {
 					case 'QUIT':
 						console.log('退出');
+						window.sessionStorage.removeItem('user')
+						this.$store.commit('setUser',{})
 						this.$router.push({ path: '/login' })
 						break;
 				}
@@ -170,33 +107,25 @@
 
 <style lang="scss" scoped>
 	.topheader-outer {
-		width: 100%;
-		position: fixed;
-		height: 60px;
-		background-color: #409eff;
 		display: flex;
+		height: 60px;
 		align-items: center;
 		justify-content: space-between;
-		z-index: 999;
-
 		.logo {
 			width: 200px;
 			text-align: center;
 			cursor: pointer;
 		}
 		.main {
-			width: 1270px;
+			width: 800px;
 			display: flex;
+			align-items: center;
 		}
 		.site-selector {
 			width: 120px;
 		}
 		.user-box {
-			// position: absolute;
-			display: flex;
-			align-items: center;
-			padding-right: 10px;
-			// right: 0;
+			padding-right: 60px;
 		}
 	}
 </style>

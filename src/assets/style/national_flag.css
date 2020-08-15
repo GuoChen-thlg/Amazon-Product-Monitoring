@@ -1,0 +1,78 @@
+.national_flag {
+	width: 18px;
+	position: relative;
+	top: 2px;
+	margin-right: 0.8em;
+	display: inline-block;
+	height: 12px;
+	margin: 0 0.6em;
+	background-image: url('../image/flag.png');
+}
+
+.icp-flag-au {
+	background-position: 0 -12px;
+}
+
+.icp-flag-br {
+	background-position: 0 -48px;
+}
+
+.icp-flag-ca {
+	background-position: 0 -60px;
+}
+
+.icp-flag-cn {
+	background-position: 0 -84px;
+}
+
+.icp-flag-de {
+	background-position: -18px -12px;
+}
+
+.icp-flag-es {
+	background-position: -54px -12px;
+}
+
+.icp-flag-fr {
+	background-position: -18px 0;
+}
+
+.icp-flag-gb {
+	background-position: -54px -96px;
+}
+
+.icp-flag-in {
+	background-position: -18px -36px;
+}
+
+.icp-flag-it {
+	background-position: -18px -84px;
+}
+
+.icp-flag-jp {
+	background-position: -18px -96px;
+}
+
+.icp-flag-mx {
+	background-position: -36px 0;
+}
+
+.icp-flag-nl {
+	background-position: -36px -12px;
+}
+
+.icp-flag-sa {
+	background-position: -36px -84px;
+}
+
+.icp-flag-sg {
+	background-position: -36px -96px;
+}
+
+.icp-flag-tr {
+	background-position: -54px -72px;
+}
+
+.icp-flag-us {
+	background-position: -54px -108px;
+}

@@ -9,9 +9,24 @@
 				ref="ruleForm"
 				label-width="100px"
 				class="demo-ruleForm"
+				@keyup.enter.native="submitForm('ruleForm')"
 			>
+				<el-form-item label="用户名" prop="name">
+					<el-input type="text" v-model="ruleForm.name" autocomplete="off"></el-input>
+				</el-form-item>
 				<el-form-item label="手机" prop="phone">
 					<el-input type="text" v-model="ruleForm.phone" autocomplete="off"></el-input>
+				</el-form-item>
+				<el-form-item label="验证码" prop="code">
+					<el-col :span="15">
+						<el-input type="text" v-model="ruleForm.code" autocomplete="off"></el-input>
+					</el-col>
+					<el-col :span="8" :offset="1">
+						<el-button @click.prevent="requestCode" :disabled="code_btn.disabled" v-text="code_btn.label"></el-button>
+					</el-col>
+				</el-form-item>
+				<el-form-item label="邮箱" prop="email">
+					<el-input type="email" v-model="ruleForm.email" autocomplete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="密码" prop="pass">
 					<el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
@@ -22,7 +37,7 @@
 
 				<el-form-item>
 					<el-link :underline="false">
-						已有账号？去<router-link tag="span" to="/login">登录</router-link>
+						<router-link tag="span" to="/login">已有账号？去登录</router-link>
 					</el-link>
 				</el-form-item>
 
@@ -38,32 +53,8 @@
 	export default {
 		name: 'Register',
 		data() {
-			let checkPhone = (rule, value, callback) => {
-				if (!value) {
-					return callback(new Error('手机不能为空'));
-				}
-				setTimeout(() => {
-					if (!/^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/.test(this.ruleForm.phone)) {
-						callback(new Error('请输入正确的手机号码'));
-					} else {
-						callback();
-					}
-				}, 1000);
-			};
-			let validatePass = (rule, value, callback) => {
-				if (value === '') {
-					callback(new Error('请输入密码'));
-				} else {
-					if (this.ruleForm.checkPass !== '') {
-						this.$refs.ruleForm.validateField('checkPass');
-					}
-					callback();
-				}
-			};
 			let validatePass2 = (rule, value, callback) => {
-				if (value === '') {
-					callback(new Error('请再次输入密码'));
-				} else if (value !== this.ruleForm.pass) {
+				if (value !== this.ruleForm.pass) {
 					callback(new Error('两次输入密码不一致!'));
 				} else {
 					callback();
@@ -71,39 +62,77 @@
 			};
 			return {
 				ruleForm: {
+					name: '',
 					phone: '',
+					code: '',
+					email: '',
 					pass: '',
 					checkPass: '',
 				},
 				rules: {
+					name: [
+						{ required: true, message: '用户名不能为空' },
+						{ pattern: /^([a-zA-Z0-9_\u4e00-\u9fa5]{4,16})$/, message: '至少4位（数字/字母/汉字）', trigger: 'blur' }
+					],
 					phone: [
-						{ validator: checkPhone, trigger: 'blur' }
+						{ required: true, message: '手机不能为空' },
+						{ pattern: /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/, message: '请输入正确的手机号', trigger: 'blur' },
+					],
+					code: [
+						{ required: true, message: '验证码不能为空' },
+						{ min: 6, message: '请输入6位验证码', trigger: 'blur' },
+						{ max: 6, message: '请输入6位验证码', trigger: 'blur' }
+					],
+					email: [
+						{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
 					],
 					pass: [
-						{ validator: validatePass, trigger: 'blur' }
+						{ required: true, message: '密码不能为空' },
+						{ pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^]{6,16}$/, message: '至少6位密码（包含大小写字母及数字）', trigger: 'blur' }
 					],
 					checkPass: [
+						{ required: true, message: '请再次输入密码' },
 						{ validator: validatePass2, trigger: 'blur' }
 					],
+				},
+				code_btn: {
+					label: '获取验证码',
+					disabled: false,
 				}
 			};
 		},
 		methods: {
+			/**
+			 * 提交表单
+			 * 登录
+			 */
 			submitForm(formName) {
 				this.$refs[formName].validate((valid) => {
 					if (valid) {
 						alert('submit!');
 
-
-
-						
-
 					} else {
-						console.log('error submit!!');
 						return false;
 					}
 				});
 			},
+			/**
+			 * 
+			 */
+			requestCode() {
+				this.code_btn.disabled = true;
+				let ss = 60;
+				const times = setInterval(() => {
+					ss--;
+					this.code_btn.label = `${ss}秒`
+					if (ss === 0) {
+						this.code_btn.label = `获取验证码`
+						clearTimeout(times)
+						this.code_btn.disabled = false
+					}
+				}, 1000)
+				console.log('发送验证码')
+			}
 
 		},
 	}

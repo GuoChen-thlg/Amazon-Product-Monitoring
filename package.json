@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -11,9 +12,12 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
+    "file-saver": "^2.0.2",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",
-    "vuex": "^3.4.0"
+    "vuex": "^3.4.0",
+    "xlsx": "^0.16.5",
+    "xlsx-saver": "^1.0.7"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

@@ -1,0 +1,21 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+ul,
+ol,
+li {
+	list-style: none;
+}
+a {
+	text-decoration: none;
+	cursor: pointer;
+}
+.cursor {
+	cursor: pointer;
+}
+.el-loading-mask {
+	/* 加载图层 z-index 低于 头部 */
+	z-index: 1900;
+}
