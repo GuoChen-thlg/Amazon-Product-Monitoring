@@ -3,7 +3,7 @@
 		<el-container>
 			<el-aside width="220px">
 				<el-menu default-active="1" @select="selectSidebar">
-					<template v-for="(item,index) in categories">
+					<template v-for="(item,index) in sidebarList">
 						<el-menu-item :index="`${item.value}`" :key="index" class="menu-item">
 							<span slot="title">{{item.label}}</span>
 						</el-menu-item>
@@ -16,17 +16,14 @@
 </template>
 
 <script>
+	import { mapGetters } from 'vuex'
+	
 	export default {
-		name: 'Category',
+		name: 'category',
 		data() {
 			return {
-				categories: [],
 			}
 		},
-		created() {
-			this.categories=this.$store.state.category.sidebarList;
-		},
-
 		methods: {
 			/**
 			 * 侧边栏选项
@@ -35,7 +32,9 @@
 				console.log(val);
 			},
 		},
-		
+		computed: {
+			...mapGetters('category',['sidebarList'])
+		}
 	}
  </script>
 

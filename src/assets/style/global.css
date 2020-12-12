@@ -19,3 +19,16 @@ a {
 	/* 加载图层 z-index 低于 头部 */
 	z-index: 1900;
 }
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: transparent;
+}
+*::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+	background-color: rgba(0,0,0,.2);
+}
+*::-webkit-scrollbar-track {
+    border-radius: 10px;
+	background-color: transparent;
+}

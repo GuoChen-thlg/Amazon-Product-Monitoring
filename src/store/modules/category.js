@@ -154,6 +154,11 @@ const category = {
 			},
 		],
 	},
+	getters: {
+		sidebarList: state => {
+			return state.sidebarList
+		},
+	},
 	mutations: {
 		setSidebar: function(state, sidebarData) {
 			state.sidebarList = sidebarData

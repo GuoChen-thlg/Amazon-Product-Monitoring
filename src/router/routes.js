@@ -46,7 +46,8 @@ const routes = [
 	{
 		path: '/keyword',
 		name: 'keyword',
-		component: () => import('@/views/KeyWord.vue'),
+		component: () => import('@/views/keyword/Index.vue'),
+		redirect: { name: 'excavate' },
 		meta: {
 			title: '关键词',
 			isShowTopHeader: true,
@@ -55,6 +56,22 @@ const routes = [
 				member: false, // 优质用户
 			},
 		},
+		children: [
+			{
+				path: 'excavate',
+				name: 'excavate',
+				component: () => import('@/views/keyword/Excavate.vue'),
+				meta: {
+					title: '关键词挖掘',
+					isShowTopHeader: true,
+					jurisdiction: {
+						login: true, // 一般用户
+						member: false, // 优质用户
+					},
+				},
+				children: [],
+			},
+		],
 	},
 	{
 		path: '/comment',
@@ -68,6 +85,36 @@ const routes = [
 				member: false,
 			},
 		},
+	},
+	{
+		path: '/my',
+		name: 'My',
+		component: () => import('@/views/my/Index.vue'),
+		redirect: { name: 'trace' },
+		meta: {
+			title: '个人中心',
+			isShowTopHeader: true,
+			jurisdiction: {
+				login: true, // 一般用户
+				member: false, // 优质用户
+			},
+		},
+		children: [
+			{
+				path: 'trace',
+				name: 'trace',
+				component: () => import('@/views/my/Trace.vue'),
+				meta: {
+					title: '产品追踪',
+					isShowTopHeader: true,
+					jurisdiction: {
+						login: true, // 一般用户
+						member: false, // 优质用户
+					},
+				},
+				children: [],
+			},
+		],
 	},
 	{
 		path: '/login',
@@ -95,6 +142,31 @@ const routes = [
 			},
 		},
 	},
+	{
+		path: '/forget',
+		name: 'forget',
+		component: () => import('@/views/user/Forget.vue'),
+		meta: {
+			title: '找回密码',
+			isShowTopHeader: true,
+			jurisdiction: {
+				login: false,
+				member: false,
+			},
+		},
+	},
+	{
+		path: '/pag',
+		component: () => import('../../test/pag-table.vue'),
+		meta: {
+			title: '测试table',
+			isShowTopHeader: true,
+			jurisdiction: {
+				login: false,
+				member: false,
+			},
+		},
+	},
 ]
 /**
  * 错误页面
@@ -102,14 +174,15 @@ const routes = [
 const error = [
 	{
 		path: '/404',
-		component: () => import('@/views/Error.vue'),
+		name: '404',
+		component: () => import('@/views/error/404.vue'),
 		meta: {
 			title: '404',
 			jurisdiction: {},
 		},
 	},
 	{
-		path: '/*',
+		path: '*',
 		redirect: { name: '404' },
 	},
 ]

@@ -16,7 +16,7 @@ export function text(data) {
 	// console.log(data)
 	return axios({
 		flag: 'text',
-		url: 'https://easydoc.xyz/mock/NX1XF1Cx/p/29538143/0I92pgNB',
+		url: 'https://easydoc.xyz/mock/NX1XF1Cx/p/29538143/PW4fVBR1',
 		method: 'GET',
 		data,
 	})
@@ -31,7 +31,7 @@ export function text(data) {
 export function login(data) {
 	return axios({
 		flag: 'login',
-		url: '',
+		url: '/custom/user/loginCus',
 		method: 'POST',
 		data,
 	})
@@ -46,7 +46,7 @@ export function login(data) {
 export function register(data) {
 	return axios({
 		flag: 'register',
-		url: '',
+		url: '/custom/user/registerCus',
 		method: 'POST',
 		data,
 	})
@@ -69,4 +69,70 @@ export function searchKeyWord(data) {
 				'Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1OTc2MzIyMzgsImlhdCI6MTU5NzAyNzQzOCwiaXNzIjoianVuZ2xlc2NvdXRfYXBpIiwiYXVkIjoiY2xpZW50IiwiYXV0aF90b2tlbiI6ImUxZDJiODU5YzlkNGM0ZTMxMjJhNzEyMDE3ZDI4ZDQxIn0.qe1EwzDLh39gGN3btAQWl-RtWj6p8DSwszwX4xyzZPI',
 		},
 	})
+}
+/**
+ * @description 关键词模糊匹配
+ *  fetch 请求方法
+ * @param {JSON} data
+ */
+export function fuzzyMatching(data) {
+	let param = `station=${data.station}&keyword=${data.keyword}`
+	document.cookie = 'current_guest=XMQWqvCT10vV_200725-146372;path=/;'
+	document.cookie = 'rank_c_s_ind = 2;path=/;'
+	document.cookie = 'ecookie=G4szO29IVP47HphA_CN;path=/;'
+	document.cookie = '_ga=GA1.2.153005768.1595658825;path=/;'
+	document.cookie = '_gid=GA1.2.255087801.1597891484;path=/;'
+	document.cookie = 'ecookie=G4szO29IVP47HphA_CN;path=/;'
+	document.cookie =
+		'rank-login-user=3593297951IrZXNTSoIlHhPKyHGfg/7TMbw6xY7YpCjminsqgfQO1BZZabbPcssETMMk4SBIue;path=/;'
+	document.cookie =
+		'ao_lo_to_n=3593297951IrZXNTSoIlHhPKyHGfg/7ezIvLAYTuzmrBnyXMtu1/D2twLJ+X6Bu92AUbYIJnTKchF69MyKgoVvVQlAr9zwv1s8VxrTVcjCz/HinK/ubiM=;path=/;'
+	document.cookie =
+		'crisp-client%2Fsession%2F02ce6ae3-e1ab-4bb7-ae11-b1a839c52e78=session_9f0dc2d7-588b-4d4d-b328-d6bbc709c39c;path=/;'
+	document.cookie =
+		'JSESSIONID=502A1733B0E347B892F3543118DEBEAA;_gat_gtag_UA_135032196_1 = 1;path=/;'
+	// return axios({
+	// 	url: `/api/v2/suggestions/?${param}`,
+	// 	method: 'GET',
+	// 	withCredentials: true,
+	// })
+
+	return fetch(`/api/v2/suggestions/?${param}`).then(function(response) {
+		return response.json()
+	})
+}
+/**
+ * @description 得到用户追踪产品 axin 列表
+ * 
+ * @param {json} params 用户名字
+ * @returns 
+ */
+export function traceList(params) {
+	return axios({
+		flag: 'traceList',
+		url: '/custom/user/looktrack',
+		method: 'POST',
+		params
+	 })
+}
+ /**
+  * @description 根据 asin 获取产品信息
+  * 
+  * @param {string} params 
+  * @returns 
+  */
+export function getProducrs(params) {
+	return axios({
+		flag: 'traceList',
+		url: `/custom/user/amzproductList/${params}`,
+		method: 'GET'
+	 })
+}
+
+export function cancelTrace() {
+	return axios({
+		flag: 'cancelTrace',
+		url: `/custom/user/amzproductList/${params}`,
+		method: 'GET'
+	 })
 }

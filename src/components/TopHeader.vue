@@ -11,6 +11,7 @@
 						:key="item.mark"
 						:label="item.country"
 						:value="item.mark"
+						:disabled="item.disabled"
 					>
 						<span :class="[`national_flag`,`icp-flag-${item.mark}`]"></span>
 						{{item.country}}
@@ -18,16 +19,16 @@
 				</el-select>
 			</div>
 			<div class="menu">
-				<Navbar />
+				<nav-bar />
 			</div>
 		</div>
 		<div class="user-box">
 			<template v-if="!$store.getters.isInlogin">
-				<router-link to="/login" tag="span" class="cursor" title="登陆">登录</router-link>/
+				<router-link to="/login" tag="span" class="cursor" title="登陆">登录</router-link>|
 				<router-link to="/register" tag="span" class="cursor" title="注册">注册</router-link>
 			</template>
 			<template v-else>
-				<span>用户一</span>
+				{{Uname}}
 				<el-dropdown @command="handle">
 					<span class="el-dropdown-link">
 						<i class="el-icon-arrow-down el-icon--right"></i>
@@ -44,8 +45,9 @@
 
 <script>
 	import Navbar from './NavBar'
+	import { mapGetters } from 'vuex'
 	export default {
-		name: 'TopHeader',
+		name: 'top-header',
 		data() {
 			return {
 				site: {
@@ -76,7 +78,12 @@
 					case 'QUIT':
 						console.log('退出');
 						window.sessionStorage.removeItem('user')
-						this.$store.commit('setUser',{})
+						this.$store.commit('setUser', {
+							member: false,
+							login: false,
+							name: '',
+							token: '',
+						})
 						this.$router.push({ path: '/login' })
 						break;
 				}
@@ -88,19 +95,17 @@
 			 */
 			'stateSite': function () {
 				this.site.val = this.$store.state.site
-			}
+			},
+
 		},
 		computed: {
-			/**
-			 * 站点
-			 * 计算
-			 */
-			stateSite: function () {
-				return this.$store.state.site
-			}
+			...mapGetters({
+				stateSite: 'site',
+				Uname: 'u_name'
+			}),
 		},
 		components: {
-			Navbar
+			'nav-bar': Navbar
 		}
 	}
 </script>
@@ -126,6 +131,16 @@
 		}
 		.user-box {
 			padding-right: 60px;
+			min-width: 200px;
+			text-align: right;
+			color: #fff;
+			span{
+				padding:5px 10px;
+			}
+			.router-link-active,
+			span:hover {
+				color: #000;
+			}
 		}
 	}
 </style>
